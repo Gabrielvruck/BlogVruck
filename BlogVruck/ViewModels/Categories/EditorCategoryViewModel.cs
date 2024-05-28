@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlogVruck.ViewModels
+namespace BlogVruck.ViewModels.Categories
 {
     public class EditorCategoryViewModel
     {
