@@ -3,6 +3,7 @@ using Blog.Models;
 using BlogVruck.Extensions;
 using BlogVruck.ViewModels;
 using BlogVruck.ViewModels.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace BlogVruck.Controllers
     public class CategoryController : ControllerBase
     {
         //APIREST = PARAMETRIZACAO
+        [Authorize(Roles = "user")]
         [HttpGet("v1/categories")]
         public async Task<IActionResult> GetAsync([FromServices] BlogDataContext context)
         {
@@ -47,6 +49,7 @@ namespace BlogVruck.Controllers
 
         }
 
+        [Authorize(Roles = "user")]
         [HttpPost("v1/categories/")]
         public async Task<IActionResult> PostAsync([FromServices] BlogDataContext context, [FromBody] EditorCategoryViewModel model)
         {
@@ -78,6 +81,7 @@ namespace BlogVruck.Controllers
             }
         }
 
+        [Authorize(Roles = "user")]
         [HttpPut("v1/categories/{id}")]
         public async Task<IActionResult> PutAsync([FromServices] BlogDataContext context, [FromRoute] int id, [FromBody] EditorCategoryViewModel model)
         {
@@ -107,6 +111,7 @@ namespace BlogVruck.Controllers
 
         }
 
+        [Authorize(Roles = "user")]
         [HttpDelete("v1/categories/{id}")]
         public async Task<IActionResult> DeleteAsync([FromServices] BlogDataContext context, [FromRoute] int id)
         {

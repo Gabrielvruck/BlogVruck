@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlogVruck.Attributes;
+using Microsoft.AspNetCore.Mvc;
 // Health check
 namespace BlogVruck.Controllers
 {
@@ -7,6 +8,7 @@ namespace BlogVruck.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet("")]
+        [ApiKey]
         public IActionResult Get()
         {
             return Ok();
