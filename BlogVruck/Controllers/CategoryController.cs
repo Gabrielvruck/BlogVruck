@@ -6,6 +6,7 @@ using BlogVruck.ViewModels.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BlogVruck.Controllers
 {
@@ -26,6 +27,32 @@ namespace BlogVruck.Controllers
             {
                 return StatusCode(500, new ResultViewModel<List<Category>>("05XE03 - Falha interna no servidor"));
             }
+        }
+
+        [HttpGet("v1/categories/cache")]
+        public IActionResult GetCacheAsync(
+          [FromServices] IMemoryCache cache,
+          [FromServices] BlogDataContext context)
+        {
+            try
+            {
+                var categories = cache.GetOrCreate("CategoriesCache", entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+                    return GetCategories(context);
+                });
+
+                return Ok(new ResultViewModel<List<Category>>(categories));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<List<Category>>("05X04 - Falha interna no servidor"));
+            }
+        }
+
+        private List<Category> GetCategories(BlogDataContext context)
+        {
+            return context.Categories.ToList();
         }
 
         [HttpGet("v1/categories/{id:int}")]

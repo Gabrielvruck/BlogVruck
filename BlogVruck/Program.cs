@@ -73,10 +73,12 @@ void ConfigureMvc(WebApplicationBuilder builder)
         options.Providers.Add<GzipCompressionProvider>();
         // options.Providers.Add<CustomCompressionProvider>();
     });
+
     builder.Services.Configure<GzipCompressionProviderOptions>(options =>
     {
         options.Level = CompressionLevel.Optimal;
     });
+
     builder
         .Services
         .AddControllers()
