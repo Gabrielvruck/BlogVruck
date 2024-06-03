@@ -30,8 +30,9 @@ LoadConfiguration(app);
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
+app.UseResponseCompression();
 app.MapControllers();
+app.UseStaticFiles();
 app.Run();
 
 void LoadConfiguration(WebApplication app)
